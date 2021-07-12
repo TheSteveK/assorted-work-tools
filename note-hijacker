@@ -1,0 +1,30 @@
+/**
+ * Hijacks the /note command and fires off the floating note toggle
+ * code is based off of the note field hilighter from 
+ * https://github.com/Automattic/support-helper-tools/tree/main/happytools-enhancements/happychat-operators
+ */
+ 
+// Run the function in a loop to read value of chat box without needing to change focus
+window.setInterval(function(){
+    hijackNote();
+}, 2500);
+
+/**
+ * Checks the text box to see if it starts with /note
+ * If it does, checks to make sure the note isn't open already
+ * Calls the button clicked function already in the script
+ */
+function hijackNote(){
+    let boxContents = $('.chat-actions__current-chat-action-compose textarea').val();
+    if (boxContents) {
+        let entryField = boxContents.toLowerCase();
+        if (entryField.startsWith('/note ')) {
+            
+            // prevent the note from flapping open and closed using the built-in state feature
+            if (!state.noteIsOpen){ 
+                handleNoteToggleBtnClicked(); 
+            }
+        }
+    }
+}
+/** end /note hijack */
